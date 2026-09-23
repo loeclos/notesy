@@ -59,7 +59,9 @@ environment.systemPackages = [
 
 The download URL is derived from `channel`/`version`/`assetKind` in `notesy.nix`
 (`https://cdn.notesy.ink/beta/<version>/notesy-<version>-linux-x86_64.tar.gz`),
-so a bump only needs new hashes. Hashes live in `versions.json` (kept out of
+so a bump only needs new hashes. We will be doing this on our end as new versions of notesy drop, so you will most likely never need to worry about this.
+
+If you want to update stuff manually: Hashes live in `versions.json` (kept out of
 the `.nix` so the updater never edits Nix code) and eval stays pure — no
 network at `nix build`/`nix eval` time. To pin the feed's latest beta:
 
