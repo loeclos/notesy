@@ -3,10 +3,10 @@
 # `nix-build -A notesy --argstr system aarch64-linux`.
 # All other args are forwarded to notesy.nix; null means "derived default".
 # `nixpkgs` accepts a path/tarball so users can build against their own
-# channel instead of the pinned 24.05 below.
+# channel instead of the pinned 26.05 below.
 {
   system ? builtins.currentSystem,
-  nixpkgs ? fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-24.05",
+  nixpkgs ? fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-26.05",
   channel ? null,
   baseUrl ? null,
   version ? null,

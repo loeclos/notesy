@@ -2,7 +2,7 @@
   description = "Nix packaging for notesy — plain markdown notes in a fast native app";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
   };
 
   outputs =
@@ -46,6 +46,6 @@
 
       overlays.default = _final: prev: { notesy = prev.callPackage ./notesy.nix { }; };
 
-      formatter = forAllSystems (system: (pkgsFor system).nixfmt-rfc-style);
+      formatter = forAllSystems (system: (pkgsFor system).nixfmt);
     };
 }

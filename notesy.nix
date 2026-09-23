@@ -21,7 +21,14 @@
   freetype,
   expat,
   glib,
-  xorg,
+  libx11,
+  libxcursor,
+  libxi,
+  libxrandr,
+  libxext,
+  libxfixes,
+  libxrender,
+  libxcb,
   # Upstream release feed: https://cdn.notesy.ink/beta/latest.json
   # The download URL is derived dynamically as
   # `${baseUrl}/${channel}/${version}/${assetFile}` so bumping `version`
@@ -103,14 +110,14 @@ let
     freetype
     expat
     glib
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrender
-    xorg.libxcb
+    libx11
+    libxcursor
+    libxi
+    libxrandr
+    libxext
+    libxfixes
+    libxrender
+    libxcb
   ];
   linuxOnly = lib.optionals stdenv.isLinux [
     dbus
