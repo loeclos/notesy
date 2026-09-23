@@ -22,32 +22,18 @@
   expat,
   glib,
   xorg,
+  # Pinned beta release. Bump these when a new beta ships — query
+  # https://cdn.notesy.ink/beta/latest.json and copy the `linux-x86_64`
+  # `tar` (or top-level `url`) and `program` fields. Pinned instead of
+  # fetching latest.json at eval time so the derivation evaluates purely
+  # (required for flakes) and a given commit always builds the same binary.
+  version ? "0.1.13-beta.6",
+  srcUrl ? "https://cdn.notesy.ink/beta/0.1.13-beta.6/notesy-0.1.13-beta.6-linux-x86_64.tar.gz",
+  srcHash ? "a5f9000f3ecabced354af7e3664bb836be9c0e91d5730b955f974f2cd1e00560",
+  programPath ? "notesy",
+  programSha256 ? "41c5f3c946699fb4e7bc60465601cbc909b0008c07dd54ee161b70424f5f4fa6",
 }:
 let
-  latest = builtins.fromJSON (
-    builtins.readFile (
-      builtins.fetchurl {
-        url = "https://cdn.notesy.ink/beta/latest.json";
-      }
-    )
-  );
-  # New schema lists both naming styles; prefer the `linux-x86_64` key,
-  # fall back to the legacy `x86_64-linux` key.
-
-  asset =
-    latest.assets.${builtins.currentSystem} or latest.assets."linux-x86_64"
-      or latest.assets."x86_64-linux";
-  version = latest.version;
-  # New schema names the tarball beside the zip: prefer it when present,
-  # otherwise fall back to the zip itself. Both carry their own sha256.
-  source = asset.tar or asset;
-  # New schema describes the program inside the archive with its own
-  # SHA-256 (the archive hash never matches the unpacked file).
-  program =
-    asset.program or {
-      path = "notesy";
-      sha256 = null;
-    };
   # winit-0.30 dlopen()s these at runtime (Wayland/X11/GL);
   # invisible to ldd, so they must also be in runtimeDependencies.
   guiRuntime = [
@@ -74,14 +60,11 @@ stdenv.mkDerivation {
   inherit version;
 
   src = fetchurl {
-    url = source.url;
-    inherit (source) sha256;
+    url = srcUrl;
+    sha256 = srcHash;
   };
 
-  nativeBuildInputs = [
-    autoPatchelfHook
-  ]
-  ++ lib.optional (!(asset ? tar)) unzip;
+  nativeBuildInputs = [ autoPatchelfHook ] ++ lib.optional (lib.hasSuffix ".zip" srcUrl) unzip;
 
   buildInputs = [
     stdenv.cc.cc.lib
@@ -94,8 +77,7 @@ stdenv.mkDerivation {
     zstd
     systemd
     gcc
-  ]
-  ++ guiRuntime;
+  ] ++ guiRuntime;
 
   # autoPatchelfHook only patches DT_NEEDED; winit uses dlopen(),
   # so force these into RPATH unconditionally.
@@ -119,12 +101,12 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    ${lib.optionalString (program.sha256 != null) ''
-      echo "checking unpacked program against latest.json program.sha256..."
-      echo "${program.sha256}  ${program.path}" | sha256sum -c -
+    ${lib.optionalString (programSha256 != null) ''
+      echo "checking unpacked program against pinned programSha256..."
+      echo "${programSha256}  ${programPath}" | sha256sum -c -
     ''}
 
-    install -Dm755 ${program.path} $out/bin/notesy
+    install -Dm755 ${programPath} $out/bin/notesy
     install -Dm644 notesy.desktop $out/share/applications/notesy.desktop
 
     mkdir -p $out/share/icons
