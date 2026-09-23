@@ -33,17 +33,21 @@ let
   );
   # New schema lists both naming styles; prefer the `linux-x86_64` key,
   # fall back to the legacy `x86_64-linux` key.
-  asset = latest.assets."linux-x86_64" or latest.assets."x86_64-linux";
+
+  asset =
+    latest.assets.${builtins.currentSystem} or latest.assets."linux-x86_64"
+      or latest.assets."x86_64-linux";
   version = latest.version;
   # New schema names the tarball beside the zip: prefer it when present,
   # otherwise fall back to the zip itself. Both carry their own sha256.
   source = asset.tar or asset;
   # New schema describes the program inside the archive with its own
   # SHA-256 (the archive hash never matches the unpacked file).
-  program = asset.program or {
-    path = "notesy";
-    sha256 = null;
-  };
+  program =
+    asset.program or {
+      path = "notesy";
+      sha256 = null;
+    };
   # winit-0.30 dlopen()s these at runtime (Wayland/X11/GL);
   # invisible to ldd, so they must also be in runtimeDependencies.
   guiRuntime = [
@@ -74,11 +78,10 @@ stdenv.mkDerivation {
     inherit (source) sha256;
   };
 
-  nativeBuildInputs =
-    [
-      autoPatchelfHook
-    ]
-    ++ lib.optional (!(asset ? tar)) unzip;
+  nativeBuildInputs = [
+    autoPatchelfHook
+  ]
+  ++ lib.optional (!(asset ? tar)) unzip;
 
   buildInputs = [
     stdenv.cc.cc.lib
@@ -91,7 +94,8 @@ stdenv.mkDerivation {
     zstd
     systemd
     gcc
-  ] ++ guiRuntime;
+  ]
+  ++ guiRuntime;
 
   # autoPatchelfHook only patches DT_NEEDED; winit uses dlopen(),
   # so force these into RPATH unconditionally.
