@@ -1,0 +1,18 @@
+{
+  "0.1.13-beta.6": {
+    "x86_64-linux": {
+      "tar": "a5f9000f3ecabced354af7e3664bb836be9c0e91d5730b955f974f2cd1e00560",
+      "zip": null,
+      "programPath": "notesy",
+      "programSha256": "41c5f3c946699fb4e7bc60465601cbc909b0008c07dd54ee161b70424f5f4fa6"
+    }
+  },
+  "0.1.14-beta.1": {
+    "x86_64-linux": {
+      "tar": "b7dbf9738ddf1413bb16f7081f0c72895332ac25bfb000c9b4cd36da3daf13d9",
+      "zip": "1621bf0f5a989b15ad8d69684b8428b7c02e9b1e79bd322118d040468b44b3eb",
+      "programPath": "notesy",
+      "programSha256": "d0a8b569fab25b817d6d90bcbf15cc300484a1935b5c7226f2d8319a5522e4ec"
+    }
+  }
+}
