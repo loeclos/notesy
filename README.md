@@ -1,6 +1,6 @@
 # notesy
 
-Notesy is developed by [@toyz](https://github.com/Toyz). This is a nixos derivation meant to make the process of installing notesy on nixos easier.
+Notesy is an amazing, fast, and modern alternative to Obsidian. It is developed and maintened by [@toyz](https://github.com/Toyz). This is a nixos derivation meant to make the process of installing notesy on nixos easier.
 
 ## Installing
 
