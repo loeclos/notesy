@@ -14,5 +14,13 @@
       "programPath": "notesy",
       "programSha256": "d0a8b569fab25b817d6d90bcbf15cc300484a1935b5c7226f2d8319a5522e4ec"
     }
+  },
+  "0.1.15-beta.2": {
+    "x86_64-linux": {
+      "tar": "f82cf2694cd007d2a3a46422412b35ffd6ed9307f32e3dcd780f4c97779c5985",
+      "zip": "cb6b0226962550f4cc243d5f0877fab01bddf655a697586bd27322f835bc0a47",
+      "programPath": "notesy",
+      "programSha256": "9ce959429fd69281be2589dfafcb126b42dd09f6d61bc80ce607f82abbd7003f"
+    }
   }
 }
