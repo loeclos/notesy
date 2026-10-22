@@ -40,7 +40,7 @@
   # unless the new version already has an entry in `hashes`.
   channel ? "beta",
   baseUrl ? "https://cdn.notesy.ink",
-  version ? "0.1.15-beta.2",
+  version ? "0.2.1-beta.1",
   # Linux asset kind from the feed: "tar" (default) or "zip".
   assetKind ? "tar",
   # Explicit overrides win over derived defaults.
